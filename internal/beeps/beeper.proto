@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto"; 
+
+option go_package = "github.com/jesseobrien/heartbeep/internal/beeps";
+
+package beeps;
+
+// The greeting service definition.
+service BeepCollector {
+  // Receives a beep, sends a beep back
+  rpc Beep(BeepRequest) returns (BeepResponse) {}
+}
+
+// The request message containing the user's name.
+message BeepRequest {
+  google.protobuf.Timestamp time = 1;
+  string request_id = 2;
+}
+
+message BeepResponse{
+  google.protobuf.Timestamp time = 1;
+  string request_id = 2;
+}
