@@ -37,7 +37,8 @@ func main() {
 		}
 		log.WithField("request_id", request.GetRequestId()).Info("Beeper beeped")
 		responseTime, _ := ptypes.Timestamp(resp.GetTime())
-		log.WithFields(log.Fields{"request_id": resp.RequestId, "time": responseTime}).Infof("received request back")
+		now := time.Now()
+		log.WithFields(log.Fields{"request_id": resp.RequestId, "roundtrip": now.Sub(responseTime)}).Infof("received request back")
 	}
 
 }

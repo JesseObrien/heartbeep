@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net"
+	"time"
 
 	"github.com/apex/log"
 	"github.com/golang/protobuf/ptypes"
@@ -17,11 +18,12 @@ type CollectorServer struct {
 }
 
 func (bs *CollectorServer) Beep(ctx context.Context, beep *pb.BeepRequest) (*pb.BeepResponse, error) {
-	timeReceived, _ := ptypes.Timestamp(beep.Time)
-	log.WithField("time", timeReceived).Infof("Collector received beep")
+	now := time.Now()
+	timeSent, _ := ptypes.Timestamp(beep.Time)
+	log.WithField("time diff", now.Sub(timeSent)).Infof("Collector received beep")
 
 	return &pb.BeepResponse{
-		Time:      ptypes.TimestampNow(),
+		Time:      beep.GetTime(),
 		RequestId: beep.GetRequestId(),
 	}, nil
 }
